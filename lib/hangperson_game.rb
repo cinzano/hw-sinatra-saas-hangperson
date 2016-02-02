@@ -36,19 +36,29 @@ class HangpersonGame
   end
 
   def check_win_or_lose
-    win = true
-    @word.each do |a|
-      if (@guesses.include? a == false)
-        win = false
-      end
-    end
-    if win == true
+    if word_with_guesses == @word
       return :win
+    elsif @wrong_guesses.length > 6
+      return :lose
+    else
+      return :play
     end
   end
   
   def word_with_guesses
-    
+    if @guesses.empty?
+      return @word.gsub(/[a-z]/, '-')
+    else
+      new = ""
+      @word.each_char do |a|
+        if @guesses.include? a
+          new << a
+        else
+          new << "-"
+        end
+      end
+      return new
+    end
   end
   
   def self.get_random_word
